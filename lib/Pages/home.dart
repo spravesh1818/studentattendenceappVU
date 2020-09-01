@@ -35,6 +35,12 @@ class _homeState extends State<home> {
               onTap: (){
                 Navigator.pushNamed(context, "/readsingle");
               },
+            ),
+            ListTile(
+              title: const Text("Test Stream Behaviour"),
+              onTap: (){
+                Navigator.pushNamed(context, "/testDrive");
+              },
             )
           ],
         );

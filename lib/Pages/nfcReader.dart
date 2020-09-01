@@ -12,6 +12,9 @@ class _NfcReaderImpleState extends State<NfcReaderImple> {
   bool _supportsNfc=false;
   bool _reading=false;
   StreamSubscription<NDEFMessage> _stream;
+  List<NDEFMessage> tags=[];
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
 
   @override
   void initState() {
@@ -28,6 +31,7 @@ class _NfcReaderImpleState extends State<NfcReaderImple> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           title:Text("Attendence Reader"),
         ),
@@ -35,48 +39,42 @@ class _NfcReaderImpleState extends State<NfcReaderImple> {
           if(!_supportsNfc){
             return Scaffold(
               body: Center(
-                child: RaisedButton(
-                  child: const Text("You device does not support NFC"),
-                  onPressed: null,
+                child: Text("You device does not support NFC"),
                 ),
-              ),
+
             );
           }
-          return RaisedButton(
-              child: Text(_reading ? "Stop reading" : "Start reading"),
-              onPressed: () {
-                if (_reading) {
-                  _stream?.cancel();
-                  setState(() {
-                    _reading = false;
-                  });
-                } else {
-                  setState(() {
-                    _reading = true;
-                    // Start reading using NFC.readNDEF()
-                    _stream = NFC.readNDEF(
-                      throwOnUserCancel: false,
-                    ).listen((NDEFMessage message) {
-                      showDialog(context: context,builder: (context){
-                        return AlertDialog(
-                          title: Text("Tag details"),
-                          content: Text("Tag details:${message.payload}"),
-                          actions: [
-                            FlatButton(
-                              child: Text("Close"),
-                              onPressed: (){
-                                Navigator.of(context).pop();
-                              },
-                            )
-                          ],
-                        );
+          return Column(
+            children: [
+
+              RaisedButton(
+                  child: Text(_reading ? "Stop reading" : "Start reading"),
+                  onPressed: () {
+                    if (_reading) {
+                      _stream?.cancel();
+                      setState(() {
+                        _reading = false;
                       });
-                    }, onError: (e) {
-                      // Check error handling guide below
-                    });
-                  });
-                }
-              }
+                    } else {
+                      setState(() {
+                        _reading = true;
+                        // Start reading using NFC.readNDEF()
+                        _stream = NFC.readNDEF(
+                          throwOnUserCancel: false,
+                        ).listen((NDEFMessage message) {
+                          tags.add(message);
+                        }, onError: (e) {
+                          _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(e.toString()),));
+                          // Check error handling guide below
+                        });
+                      });
+                    }
+                  }
+              ),
+              ListView.builder(itemCount:tags.length,itemBuilder: (context,index){
+                return ListTile(title: Text(tags[index].data),);
+              })
+            ],
           );
         },),
       ),

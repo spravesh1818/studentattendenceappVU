@@ -3,44 +3,36 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:nfc_in_flutter/nfc_in_flutter.dart';
 
-class NfcReaderStreamer extends StatefulWidget {
+class StreamSubTest extends StatefulWidget {
   @override
-  _NfcReaderStreamerState createState() => _NfcReaderStreamerState();
+  _StreamSubTestState createState() => _StreamSubTestState();
 }
 
-class _NfcReaderStreamerState extends State<NfcReaderStreamer> {
-
+class _StreamSubTestState extends State<StreamSubTest> {
   bool _supportsNfc=false;
-  StreamSubscription<NDEFMessage> _stream;
+  StreamSubscription<int> _stream;
   bool _reading=false;
-  List<NDEFMessage> tags=[];
+  List<int> tags=[];
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
 
   @override
   void initState() {
     super.initState();
-    NFC.isNDEFSupported.then((bool isSupported){
-      setState(() {
-        _supportsNfc=isSupported;
-      });
-    });
+
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          title: Text("Attendence Center"),
-        ),
-        body:Builder(builder: (context){
-        if(!_supportsNfc){
-          return Center(child: Text("Your device does not support nfc"),);
-        }
-          return tagStreamer();
-        },)
+          key: _scaffoldKey,
+          appBar: AppBar(
+            title: Text("Attendence Center"),
+          ),
+          body:Builder(builder: (context){
+            return tagStreamer();
+          },)
       ),
     );
   }
@@ -57,7 +49,7 @@ class _NfcReaderStreamerState extends State<NfcReaderStreamer> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color:Colors.green
+          color:Colors.green
       ),
       child: FlatButton(
         child: Text("Start Reading",style:TextStyle(
@@ -91,7 +83,7 @@ class _NfcReaderStreamerState extends State<NfcReaderStreamer> {
         Expanded(
           flex: 8,
           child:ListView.builder(itemCount: tags.length,itemBuilder:(context,index){
-            return ListTile(title: Text(tags[index].data),);
+            return ListTile(title: Text(tags[index].toString()),);
           }),
         ),
         Expanded(
@@ -111,11 +103,9 @@ class _NfcReaderStreamerState extends State<NfcReaderStreamer> {
       setState(() {
         _reading = true;
         // Start reading using NFC.readNDEF()
-        _stream = NFC.readNDEF(
-          throwOnUserCancel: false,
-        ).listen((NDEFMessage message) {
-          _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Message data:${message.data},message payload:${message.payload},"),));
-          updateList(message);
+        _stream = mockStream().listen((int data) {
+          _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Data read:${data}"),));
+          updateList(data);
         }, onError: (e) {
           _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(e.toString()),));
           return;
@@ -124,11 +114,25 @@ class _NfcReaderStreamerState extends State<NfcReaderStreamer> {
     }
   }
 
-  void updateList(NDEFMessage message){
+  void updateList(int message){
     tags.add(message);
-    List<NDEFMessage> temp=tags;
+    List<int> temp=tags;
     setState(() {
       tags=temp;
     });
+  }
+
+
+
+
+
+  Stream<int> mockStream() {
+    final duration = Duration(seconds: 2);
+    Stream<int> myStream = Stream.periodic(duration, (value) {
+      return (value + 1) * 2;
+    });
+
+    myStream=myStream.take(5);
+    return myStream;
   }
 }

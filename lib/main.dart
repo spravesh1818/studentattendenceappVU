@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:stdattendenceapp/Pages/loginPage.dart';
 import 'package:stdattendenceapp/Pages/nfcReader.dart';
 import 'package:stdattendenceapp/Pages/practiceStream.dart';
+import 'package:stdattendenceapp/Pages/streamTest.dart';
 
 import 'Pages/signIn.dart';
 
@@ -32,7 +33,8 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       routes: {
         "/read": (context) => NfcReaderStreamer(),
-        "/readsingle":(context)=>NfcReaderImple()
+        "/readsingle":(context)=>NfcReaderImple(),
+        "/testDrive":(context)=>StreamSubTest(),
       },
       title: 'Flutter Demo',
       theme: ThemeData(

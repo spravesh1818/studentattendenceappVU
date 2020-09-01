@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>283869283737-gndbmk0bksppj095umjtd1lbn8jr8ghc.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.283869283737-gndbmk0bksppj095umjtd1lbn8jr8ghc</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAu1xCYZvTmRSu-a0Q9cgEj0Rv3URSa6RM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>283869283737</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.stdattendenceapp</string>
+	<key>PROJECT_ID</key>
+	<string>studentattendencevu</string>
+	<key>STORAGE_BUCKET</key>
+	<string>studentattendencevu.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:283869283737:ios:7d53e4a7cc053539533f08</string>
+	<key>DATABASE_URL</key>
+	<string>https://studentattendencevu.firebaseio.com</string>
+</dict>
+</plist>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "283869283737",
+    "firebase_url": "https://studentattendencevu.firebaseio.com",
+    "project_id": "studentattendencevu",
+    "storage_bucket": "studentattendencevu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:283869283737:android:6a7c9c57f721b066533f08",
+        "android_client_info": {
+          "package_name": "com.example.stdattendenceapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "283869283737-nmejb394tj0l1qk2rhno2hlr8lcfc1ld.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8_8axzRFaJhviaIx0tN0r1Q1xjmWR5uU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "283869283737-nmejb394tj0l1qk2rhno2hlr8lcfc1ld.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "283869283737-3j8upjp0ge606gpgl76c501moki397do.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.studentattendenceVUios"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

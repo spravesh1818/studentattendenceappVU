@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:nfc_in_flutter/nfc_in_flutter.dart';
 
@@ -33,7 +34,7 @@ class _NfcReaderStreamerState extends State<NfcReaderStreamer> {
       child: Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
-          title: Text("Attendence Center"),
+          title: Text("Attendence Taker"),
         ),
         body:Builder(builder: (context){
         if(!_supportsNfc){
@@ -91,7 +92,9 @@ class _NfcReaderStreamerState extends State<NfcReaderStreamer> {
         Expanded(
           flex: 8,
           child:ListView.builder(itemCount: tags.length,itemBuilder:(context,index){
-            return ListTile(title: Text(tags[index].data),);
+            return ListView.builder(itemCount:tags.length,itemBuilder: (context,index){
+              return ListTile(title: Text("New Student Detected"),);
+            });
           }),
         ),
         Expanded(
@@ -112,20 +115,38 @@ class _NfcReaderStreamerState extends State<NfcReaderStreamer> {
         _reading = true;
         // Start reading using NFC.readNDEF()
         _stream = NFC.readNDEF(
+          readerMode: NFCDispatchReaderMode(),
           throwOnUserCancel: false,
         ).listen((NDEFMessage message) {
-          _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Message data:${message.data},message payload:${message.payload},"),));
-          updateList(message);
+          if(message.isEmpty){
+            Flushbar(
+              title:  "Empty Tag Detected",
+              message:  "Tag is empty",
+              duration:  Duration(seconds: 3),
+            )..show(context);
+          }else{
+            Flushbar(
+              title:  "Tag detected",
+              message:  "Read a tag ${message.payload},tag type:${message.tag},data on the tag:${message.data}",
+              duration:  Duration(seconds: 3),
+            )..show(context);
+            updateList(message);
+          }
+
         }, onError: (e) {
-          _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(e.toString()),));
-          return;
+          Flushbar(
+            title:  "Error Occurred",
+            message:  "${e.toString()}",
+            duration:  Duration(seconds: 3),
+          )..show(context);
         });
       });
     }
   }
 
   void updateList(NDEFMessage message){
-    tags.add(message);
+    NDEFMessage custommessage=new NDEFMessage("Tag", []);
+    tags.add(custommessage);
     List<NDEFMessage> temp=tags;
     setState(() {
       tags=temp;

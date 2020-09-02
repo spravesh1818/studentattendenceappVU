@@ -60,9 +60,11 @@ class _NfcReaderImpleState extends State<NfcReaderImple> {
                         _reading = true;
                         // Start reading using NFC.readNDEF()
                         _stream = NFC.readNDEF(
+                          readerMode: NFCDispatchReaderMode(),
                           throwOnUserCancel: false,
                         ).listen((NDEFMessage message) {
                           tags.add(message);
+                          _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Record read:${message.records[0]}"),));
                         }, onError: (e) {
                           _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(e.toString()),));
                           // Check error handling guide below
